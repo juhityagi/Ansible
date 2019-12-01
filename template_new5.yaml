@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: capture the output
+      yum:
+        name: ['git', 'httpd', 'vim']
+        state: absent
+      when: ansible_user_gid == '1000'

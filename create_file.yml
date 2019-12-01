@@ -1,0 +1,8 @@
+---
+- hosts: app
+  tasks:
+    - name: create an empty file
+      file:
+         path: /tmp/myfile123.txt
+         state: touch
+

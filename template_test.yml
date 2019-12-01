@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  become_method: sudo
+  vars:
+    name: 'juhi'
+    day: 'Friday'
+  tasks:
+    - name: Greetings by user
+      template:
+        src: template.j2
+        dest: /var/www/html/index.html
+

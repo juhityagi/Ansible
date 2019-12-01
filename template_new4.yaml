@@ -1,0 +1,14 @@
+---
+- hosts: all
+  tasks:
+    - name: capture the output
+      command: pwd
+      register: user_login
+      ignore_errors: True
+    
+    - name: print the username
+      debug:
+        msg="username is {{ user_login.stdout }}"
+    - name: print the distribution name of ansible
+      debug:
+        var: ansible_distribution
