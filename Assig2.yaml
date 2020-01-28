@@ -1,0 +1,9 @@
+---
+- hosts: [app]
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+  - name: Say hello to the world
+    debug:
+      msg: "Hello_World"

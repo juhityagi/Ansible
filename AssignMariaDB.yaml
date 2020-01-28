@@ -1,0 +1,35 @@
+---
+- hosts: [mynewapp]
+  become: yes
+  become_user: root
+  become_method: sudo
+  vars:
+    mysql_root_password: passwd
+    mysql_root_password_old: password
+  tasks:
+   - name: Install MYSQL
+     yum:
+       name: mariadb-server 
+       state: present
+   - name: Install the Python MySQL Support Libraries
+     yum: pkg=MySQL-python state=latest
+   - name: start mysql server and enable it on reboot
+     service: name=mariadb state=started enabled=true
+ 
+   - template:
+       src: template_root.j2
+       dest: /etc/template_root
+       mode: '0600'
+ 
+   - name: update mysql root password for all root accounts
+     mysql_user:
+       name: root
+       host: localhost
+       password: "{{ mysql_root_password }}"
+       check_implicit_admin: yes
+       login_user: root
+       login_password: "{{ mysql_root_password_old }}"
+       priv: "*.*:ALL,GRANT"
+   
+   - name: Create a New Test DB called MyNewDB
+     mysql_db: name=MyNewDB state=present login_user=root login_password={{ mysql_root_password }}

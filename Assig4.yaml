@@ -1,0 +1,11 @@
+---
+- hosts: [app]
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+  - name: Create a zip file
+    shell:
+      cmd: find /usr/local -type d -name "test" -mtime +7 -exec zip /usr/local/test.zip  {} \;
+  - debug:
+      msg: Zip created

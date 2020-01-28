@@ -1,0 +1,17 @@
+---
+- hosts: [app]
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+  - name: Install httpd pkg
+    yum:
+      name: httpd
+      state: latest
+    when: ansible_distribution == 'CentOS' or ansible_distribution == 'Ubuntu'
+  - name: Start httpd service
+    service:
+      name: httpd
+      state: restarted
+      enabled: yes
+    ignore_errors: yes
